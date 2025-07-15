@@ -12,6 +12,7 @@ export interface User {
   nationalite?: string;
   photo?: string;
   description?: string;
+  role: 'user' | 'admin';
   abonnement?: Abonnement;
   portfolio?: Portfolio;
   createdAt: Date;

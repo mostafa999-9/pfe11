@@ -251,7 +251,7 @@ import { Competence, TypeCompetence } from '../../../../core/models/portfolio.mo
   `]
 })
 export class CompetencesComponent implements OnInit {
-    competences: Competence[] = [];
+  competences: Competence[] = [];
   typesCompetences: TypeCompetence[] = [];
   competenceForm: FormGroup;
   displayDialog = false;
