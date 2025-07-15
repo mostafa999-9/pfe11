@@ -1,0 +1,63 @@
+<header class="header" [ngClass]="{'scrolled': isScrolled}">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo" (click)="router.navigate(['/'])">
+        <span class="logo-text">Quick<span class="text-gradient">Folio</span></span>
+      </div>
+      
+      <!-- Desktop Menu -->
+      <nav class="desktop-menu" *ngIf="!authService.isAuthenticated()">
+        <ul>
+          <li><a (click)="router.navigate(['/'])"><i class="pi pi-home"></i> Accueil</a></li>
+          <li><a (click)="scrollToFeatures()"><i class="pi pi-star"></i> Fonctionnalités</a></li>
+          <li><a (click)="router.navigate(['/pricing'])"><i class="pi pi-tag"></i> Tarifs</a></li>
+          <!-- <li><a (click)="scrollToSection('about')"><i class="pi pi-info-circle"></i> À propos</a></li> -->
+        </ul>
+      </nav>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+        <i class="pi" [ngClass]="mobileMenuOpen ? 'pi-times' : 'pi-bars'"></i>
+      </button>
+      
+      <!-- Auth Buttons -->
+      <div class="auth-buttons" *ngIf="!authService.isAuthenticated()">
+        <button pButton label="Connexion" class="p-button-text" (click)="navigateToLogin()"></button>
+        <button pButton label="S'inscrire" class="p-button-raised" (click)="navigateToRegister()"></button>
+      </div>
+      
+      <!-- User Menu -->
+      <div class="user-menu" *ngIf="authService.isAuthenticated()">
+        <div class="subscription-info" *ngIf="authService.hasActiveSubscription()">
+          <span class="days-left">{{ authService.getSubscriptionDaysLeft() }} jours restants</span>
+        </div>
+        <button pButton label="Dashboard" icon="pi pi-user" class="p-button-outlined" (click)="navigateToDashboard()"></button>
+        <button pButton icon="pi pi-sign-out" class="p-button-text" (click)="logout()" pTooltip="Déconnexion"></button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [ngClass]="{'open': mobileMenuOpen}">
+    <ul>
+      <div *ngIf="!authService.isAuthenticated()">
+        <li><a (click)="router.navigate(['/'])"><i class="pi pi-home"></i> Accueil</a></li>
+        <li><a (click)="scrollToFeatures()"><i class="pi pi-star"></i> Fonctionnalités</a></li>
+        <li><a (click)="router.navigate(['/pricing'])"><i class="pi pi-tag"></i> Tarifs</a></li>
+        <!-- <li><a (click)="scrollToSection('about')"><i class="pi pi-info-circle"></i> À propos</a></li> -->
+      </div>
+      <li *ngIf="!authService.isAuthenticated()">
+        <a (click)="navigateToLogin()"><i class="pi pi-sign-in"></i> Connexion</a>
+      </li>
+      <li *ngIf="!authService.isAuthenticated()">
+        <a (click)="navigateToRegister()"><i class="pi pi-user-plus"></i> S'inscrire</a>
+      </li>
+      <li *ngIf="authService.isAuthenticated()">
+        <a (click)="navigateToDashboard()"><i class="pi pi-user"></i> Dashboard</a>
+      </li>
+      <li *ngIf="authService.isAuthenticated()">
+        <a (click)="logout()"><i class="pi pi-sign-out"></i> Déconnexion</a>
+      </li>
+    </ul>
+  </div>
+</header>

@@ -1,0 +1,80 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Connexion</h1>
+      <p>Connectez-vous à votre compte QuickFolio</p>
+    </div>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          pInputText 
+          id="email" 
+          formControlName="email" 
+          placeholder="votre@email.com"
+          [ngClass]="{'ng-invalid ng-dirty': email?.invalid && email?.touched}"
+        />
+        <small *ngIf="email?.invalid && email?.touched" class="p-error">
+          <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+          <span *ngIf="email?.errors?.['email']">Format d'email invalide</span>
+        </small>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <p-password 
+          id="password" 
+          formControlName="password" 
+          placeholder="Votre mot de passe"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': password?.invalid && password?.touched}"
+        ></p-password>
+        <small *ngIf="password?.invalid && password?.touched" class="p-error">
+          <span *ngIf="password?.errors?.['required']">Le mot de passe est requis</span>
+          <span *ngIf="password?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères</span>
+        </small>
+      </div>
+      
+      <div class="form-group">
+        <div class="form-options">
+          <div class="checkbox-wrapper">
+            <p-checkbox 
+              formControlName="rememberMe" 
+              [binary]="true" 
+              inputId="rememberMe"
+            ></p-checkbox>
+            <label for="rememberMe">Se souvenir de moi</label>
+          </div>
+          <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+        </div>
+      </div>
+      
+      <button 
+        pButton 
+        type="submit" 
+        label="Se connecter" 
+        icon="pi pi-sign-in"
+        class="p-button-raised p-button-lg w-full"
+        [loading]="loading"
+        [disabled]="loginForm.invalid"
+      ></button>
+    </form>
+    
+    <p-divider align="center">
+      <span class="divider-text">ou</span>
+    </p-divider>
+    
+    <div class="social-login">
+      <button pButton label="Continuer avec Google" icon="pi pi-google" class="p-button-outlined w-full"></button>
+    </div>
+    
+    <div class="auth-footer">
+      <p>Pas encore de compte ? 
+        <a (click)="navigateToRegister()" class="auth-link">Créer un compte</a>
+      </p>
+    </div>
+  </div>
+</div>

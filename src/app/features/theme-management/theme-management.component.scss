@@ -1,0 +1,84 @@
+.theme-container {
+  min-height: 100vh;
+  background-color: var(--surface-ground);
+  padding: 6rem 0 2rem;
+}
+
+.theme-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.themes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.theme-preview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.active-theme {
+  border: 3px solid var(--primary-color);
+  position: relative;
+}
+
+.theme-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.theme-badges {
+  margin: 1rem 0;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge.premium {
+  background: var(--warning-color);
+  color: white;
+}
+
+.badge.free {
+  background: var(--success-color);
+  color: white;
+}
+
+.theme-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.customize-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+}

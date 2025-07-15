@@ -1,0 +1,73 @@
+<div class="subscription-container">
+  <div class="container">
+    <div class="subscription-header">
+      <h1>Gestion des Abonnements</h1>
+      <p>Gérez votre abonnement et consultez votre historique</p>
+    </div>
+
+    <!-- Abonnement Actuel -->
+    <div class="current-subscription" *ngIf="currentSubscription">
+      <h2>Abonnement Actuel</h2>
+      <p-card>
+        <div class="subscription-info">
+          <div class="info-item">
+            <label>Plan:</label>
+            <span>{{ getCurrentPlanName() }}</span>
+          </div>
+          <div class="info-item">
+            <label>Statut:</label>
+            <p-tag [value]="getStatusLabel(currentSubscription.statut)" 
+                   [severity]="getStatusSeverity(currentSubscription.statut)"></p-tag>
+          </div>
+          <div class="info-item">
+            <label>Date de fin:</label>
+            <span>{{ currentSubscription.dateFin | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Jours restants:</label>
+            <span>{{ getDaysLeft() }} jours</span>
+          </div>
+        </div>
+        <div class="subscription-actions">
+          <button pButton label="Changer de plan" icon="pi pi-refresh" 
+                 class="p-button-outlined" (click)="showPlans = true"></button>
+          <button pButton label="Annuler" icon="pi pi-times" 
+                 class="p-button-danger p-button-outlined" 
+                 (click)="cancelSubscription()"></button>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Plans Disponibles -->
+    <div class="available-plans" *ngIf="showPlans">
+      <h2>Plans Disponibles</h2>
+      <div class="plans-grid">
+        <p-card *ngFor="let plan of plans" [ngClass]="{'current-plan': isCurrentPlan(plan)}">
+          <ng-template pTemplate="header">
+            <h3>{{ plan.nom }}</h3>
+            <div class="plan-price">
+              <span class="price">{{ plan.prix }}€</span>
+              <span class="period">/ {{ plan.dureeEnJours }} jours</span>
+            </div>
+          </ng-template>
+          
+          <ul class="plan-features">
+            <li *ngFor="let avantage of plan.avantages">
+              <i class="pi pi-check"></i>
+              {{ avantage.texte }}
+            </li>
+          </ul>
+          
+          <ng-template pTemplate="footer">
+            <button pButton [label]="isCurrentPlan(plan) ? 'Plan Actuel' : 'Choisir'" 
+                   [disabled]="isCurrentPlan(plan)" 
+                   class="p-button-raised w-full"
+                   (click)="selectPlan(plan)"></button>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog></p-confirmDialog>

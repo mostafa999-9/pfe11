@@ -1,0 +1,198 @@
+<div class="dashboard-container">
+  <div class="container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div class="header-content">
+        <h1>Tableau de bord</h1>
+        <p>Gérez votre portfolio et suivez vos performances</p>
+        <div class="subscription-status" *ngIf="authService.hasActiveSubscription()">
+          <i class="pi pi-clock"></i>
+          <span>{{ getSubscriptionStatus() }}</span>
+        </div>
+      </div>
+      <button 
+        pButton 
+        label="Créer Portfolio" 
+        icon="pi pi-plus" 
+        class="p-button-raised" 
+        (click)="createNewPortfolio()"
+        [disabled]="portfolios.length >= 1">
+      </button>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-folder"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ stats.totalPortfolios }}</h3>
+          <p>Portfolio</p>
+          <small>Maximum: 1 par compte</small>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-eye"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ stats.totalViews }}</h3>
+          <p>Vues totales</p>
+          <small>Ce mois-ci</small>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ stats.totalContacts }}</h3>
+          <p>Contacts reçus</p>
+          <small>Ce mois-ci</small>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="pi pi-chart-line"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ stats.conversionRate }}%</h3>
+          <p>Taux de conversion</p>
+          <small>Visiteurs → Contacts</small>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Portfolio Section -->
+    <div class="portfolio-section" *ngIf="portfolios.length > 0">
+      <div class="section-header">
+        <h2>Mon Portfolio</h2>
+        <button 
+          pButton 
+          label="Modifier" 
+          icon="pi pi-pencil" 
+          class="p-button-outlined" 
+          (click)="editPortfolio(portfolios[0])">
+        </button>
+      </div>
+      
+      <p-table [value]="portfolios" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nom</th>
+            <th>URL</th>
+            <th>Template</th>
+            <th>Statut</th>
+            <th>Dernière modification</th>
+            <th>Vues</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-portfolio>
+          <tr>
+            <td>
+              <strong>{{ portfolio.name }}</strong>
+            </td>
+            <td>
+              <a [href]="'https://' + portfolio.url" target="_blank" class="portfolio-url">
+                {{ portfolio.url }}
+                <i class="pi pi-external-link"></i>
+              </a>
+            </td>
+            <td>{{ portfolio.template }}</td>
+            <td>
+              <p-tag 
+                [value]="getStatusLabel(portfolio.status)" 
+                [severity]="getStatusSeverity(portfolio.status)">
+              </p-tag>
+            </td>
+            <td>{{ portfolio.lastModified | date:'short':'fr' }}</td>
+            <td>
+              <span class="views-count">
+                <i class="pi pi-eye"></i>
+                {{ portfolio.views }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  pButton 
+                  icon="pi pi-pencil" 
+                  class="p-button-text p-button-sm" 
+                  pTooltip="Éditer"
+                  (click)="editPortfolio(portfolio)">
+                </button>
+                <button 
+                  pButton 
+                  icon="pi pi-eye" 
+                  class="p-button-text p-button-sm" 
+                  pTooltip="Voir"
+                  (click)="viewPortfolio(portfolio)">
+                </button>
+                <button 
+                  pButton 
+                  icon="pi pi-trash" 
+                  class="p-button-text p-button-sm p-button-danger" 
+                  pTooltip="Supprimer"
+                  (click)="deletePortfolio(portfolio)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="portfolios.length === 0">
+      <div class="empty-content">
+        <i class="pi pi-folder-open"></i>
+        <h3>Aucun portfolio créé</h3>
+        <p>Créez votre premier portfolio professionnel et commencez à impressionner vos futurs clients.</p>
+        <button 
+          pButton 
+          label="Créer mon portfolio" 
+          icon="pi pi-plus" 
+          class="p-button-raised p-button-lg"
+          (click)="createNewPortfolio()">
+        </button>
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Actions rapides</h2>
+      <div class="actions-grid">
+        <div class="action-card" (click)="createNewPortfolio()" [ngClass]="{'disabled': portfolios.length >= 1}">
+          <i class="pi pi-plus"></i>
+          <h3>Créer un portfolio</h3>
+          <p>{{ portfolios.length >= 1 ? 'Limite atteinte (1 par compte)' : 'Commencez votre portfolio professionnel' }}</p>
+        </div>
+        
+        <div class="action-card" (click)="editPortfolio(portfolios[0])" *ngIf="portfolios.length > 0">
+          <i class="pi pi-pencil"></i>
+          <h3>Modifier mon portfolio</h3>
+          <p>Personnalisez et améliorez votre portfolio</p>
+        </div>
+        
+        <div class="action-card" (click)="router.navigate(['/subscription'])">
+          <i class="pi pi-credit-card"></i>
+          <h3>Gestion des abonnements</h3>
+          <p>Gérez votre abonnement et facturation</p>
+        </div>
+        
+        <div class="action-card" (click)="router.navigate(['/themes'])">
+          <i class="pi pi-cog"></i>
+          <h3>Gestion des thèmes</h3>
+          <p>Choisissez et personnalisez votre thème</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog></p-confirmDialog>

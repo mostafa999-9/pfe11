@@ -1,0 +1,77 @@
+<div class="theme-container">
+  <div class="container">
+    <div class="theme-header">
+      <h1>Gestion des Thèmes</h1>
+      <p>Choisissez et personnalisez le thème de votre portfolio</p>
+    </div>
+
+    <div class="themes-grid">
+      <p-card *ngFor="let theme of themes" [ngClass]="{'active-theme': theme.active}">
+        <ng-template pTemplate="header">
+          <img [src]="theme.preview" [alt]="theme.nom" class="theme-preview">
+          <div class="theme-overlay" *ngIf="theme.active">
+            <i class="pi pi-check-circle"></i>
+            <span>Actif</span>
+          </div>
+        </ng-template>
+        
+        <h3>{{ theme.nom }}</h3>
+        <p>{{ theme.description }}</p>
+        
+        <div class="theme-badges">
+          <span class="badge premium" *ngIf="theme.premium">Premium</span>
+          <span class="badge free" *ngIf="!theme.premium">Gratuit</span>
+        </div>
+        
+        <ng-template pTemplate="footer">
+          <div class="theme-actions">
+            <button pButton [label]="theme.active ? 'Actif' : 'Activer'" 
+                   [disabled]="theme.active"
+                   class="p-button-raised"
+                   (click)="activateTheme(theme)"></button>
+            <button pButton label="Personnaliser" icon="pi pi-cog"
+                   class="p-button-outlined"
+                   (click)="customizeTheme(theme)"></button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog de personnalisation -->
+<p-dialog header="Personnaliser le thème" [(visible)]="showCustomizeDialog" 
+         [modal]="true" [style]="{width: '600px'}">
+  <div class="customize-form" *ngIf="selectedTheme">
+    <h4>{{ selectedTheme.nom }}</h4>
+    
+    <div class="form-group">
+      <label>Couleur principale</label>
+      <!-- <p-colorPicker [(ngModel)]="customizations.primaryColor"></p-colorPicker> -->
+    </div>
+    
+    <div class="form-group">
+      <label>Couleur secondaire</label>
+      <!-- <p-colorPicker [(ngModel)]="customizations.secondaryColor"></p-colorPicker> -->
+    </div>
+    
+    <div class="form-group">
+      <label>Police principale</label>
+      <!-- <input pInputText [(ngModel)]="customizations.fontFamily" 
+             placeholder="Ex: Arial, sans-serif"> -->
+    </div>
+    
+    <div class="form-group">
+      <label>Taille de police</label>
+      <!-- <input pInputText [(ngModel)]="customizations.fontSize" 
+             placeholder="Ex: 16px"> -->
+    </div>
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <button pButton label="Annuler" class="p-button-text" 
+           (click)="showCustomizeDialog = false"></button>
+    <button pButton label="Appliquer" class="p-button-raised" 
+           (click)="applyCustomizations()"></button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,124 @@
+<section class="pricing-section">
+  <div class="container">
+    <div class="section-header">
+      <h1>Choisissez votre plan</h1>
+      <p>Commencez avec 3 jours gratuits et accès complet à toutes les fonctionnalités</p>
+      <div class="trial-highlight">
+        <i class="pi pi-gift"></i>
+        <span>Essai gratuit de 3 jours - Aucune carte de crédit requise</span>
+      </div>
+    </div>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card animate-on-scroll" 
+           *ngFor="let plan of plans; let i = index" 
+           [ngClass]="{'popular': plan.popular}">
+        
+        <div class="popular-badge" *ngIf="plan.popular">
+          <span>Recommandé</span>
+        </div>
+        
+        <div class="plan-header">
+          <h3>{{ plan.name }}</h3>
+          <div class="price">
+            <span class="currency">€</span>
+            <span class="amount">{{ plan.price }}</span>
+            <span class="period">/ {{ plan.period }}</span>
+          </div>
+          <p class="description">{{ plan.description }}</p>
+          <div class="trial-info" *ngIf="plan.trialDays">
+            <p-chip label="3 jours gratuits" icon="pi pi-gift" styleClass="trial-chip"></p-chip>
+          </div>
+        </div>
+        
+        <div class="plan-features">
+          <ul>
+            <li *ngFor="let feature of plan.features">
+              <i class="pi pi-check"></i>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+        
+        <div class="plan-action">
+          <button pButton 
+                  [label]="plan.buttonText" 
+                  [class]="plan.buttonClass + ' p-button-lg w-full'"
+                  (click)="selectPlan(plan)"
+                  *ngIf="plan.price === 0">
+          </button>
+          
+          <!-- Bouton PayPal pour les plans payants -->
+          <div *ngIf="plan.price > 0" class="payment-options">
+            <button pButton 
+                    [label]="plan.buttonText" 
+                    [class]="plan.buttonClass + ' p-button-lg w-full'"
+                    (click)="selectPlan(plan)"
+                    style="margin-bottom: 1rem;">
+            </button>
+            <div class="paypal-container">
+              <p class="payment-label">Ou payez directement avec PayPal:</p>
+              <div [id]="'paypal-button-' + i" class="paypal-button"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pricing-info">
+      <div class="info-grid">
+        <div class="info-item">
+          <i class="pi pi-shield"></i>
+          <h4>Sécurisé</h4>
+          <p>Vos données sont protégées avec un chiffrement SSL</p>
+        </div>
+        <div class="info-item">
+          <i class="pi pi-refresh"></i>
+          <h4>Annulation facile</h4>
+          <p>Annulez votre abonnement à tout moment</p>
+        </div>
+        <div class="info-item">
+          <i class="pi pi-headphones"></i>
+          <h4>Support 24/7</h4>
+          <p>Notre équipe est là pour vous aider</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pricing-faq">
+      <h2>Questions fréquentes</h2>
+      
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Combien de portfolios puis-je créer ?</h4>
+          <p>Vous pouvez créer un seul portfolio par compte, mais avec accès à toutes les fonctionnalités premium pour créer un portfolio de qualité professionnelle exceptionnelle.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h4>Que se passe-t-il après les 3 jours gratuits ?</h4>
+          <p>Après la période d'essai, vous pouvez choisir un plan mensuel ou annuel pour continuer à utiliser votre portfolio. Sans abonnement, votre portfolio sera désactivé.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h4>Puis-je changer de plan ?</h4>
+          <p>Oui, vous pouvez passer du plan mensuel au plan annuel à tout moment. Le changement prend effet immédiatement.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h4>Y a-t-il des frais cachés ?</h4>
+          <p>Non, nos tarifs sont transparents. Le prix affiché est le prix que vous payez, sans frais supplémentaires.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h4>Puis-je annuler mon abonnement ?</h4>
+          <p>Oui, vous pouvez annuler votre abonnement à tout moment. Votre portfolio restera actif jusqu'à la fin de la période payée.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h4>Offrez-vous une garantie de remboursement ?</h4>
+          <p>Oui, nous offrons une garantie de remboursement de 30 jours sur tous nos plans payants.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
