@@ -4,7 +4,7 @@
       <div class="logo" (click)="router.navigate(['/'])">
         <span class="logo-text">Quick<span class="text-gradient">Folio</span></span>
       </div>
-      
+
       <!-- Desktop Menu -->
       <nav class="desktop-menu" *ngIf="!authService.isAuthenticated()">
         <ul>
@@ -14,15 +14,15 @@
           <!-- <li><a (click)="scrollToSection('about')"><i class="pi pi-info-circle"></i> À propos</a></li> -->
         </ul>
       </nav>
-      
+
       <!-- Admin Menu -->
       <nav class="desktop-menu" *ngIf="authService.isAuthenticated() && authService.isAdmin()">
         <ul>
           <li><a (click)="router.navigate(['/admin'])"><i class="pi pi-cog"></i> Administration</a></li>
-          <li><a (click)="router.navigate(['/dashboard'])"><i class="pi pi-user"></i> Dashboard</a></li>
+          <!-- <li><a (click)="router.navigate(['/dashboard'])"><i class="pi pi-user"></i> Dashboard</a></li> -->
         </ul>
       </nav>
-      
+
       <!-- User Menu -->
       <nav class="desktop-menu" *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
         <ul>
@@ -30,32 +30,31 @@
           <li><a (click)="router.navigate(['/portfolio-builder'])"><i class="pi pi-briefcase"></i> Portfolio</a></li>
         </ul>
       </nav>
-      
+
       <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
         <i class="pi" [ngClass]="mobileMenuOpen ? 'pi-times' : 'pi-bars'"></i>
       </button>
-      
+
       <!-- Auth Buttons -->
       <div class="auth-buttons" *ngIf="!authService.isAuthenticated()">
         <button pButton label="Connexion" class="p-button-text" (click)="navigateToLogin()"></button>
         <button pButton label="S'inscrire" class="p-button-raised" (click)="navigateToRegister()"></button>
       </div>
-      
+
       <!-- User Menu -->
       <div class="user-menu" *ngIf="authService.isAuthenticated()">
-        <div class="subscription-info" *ngIf="authService.hasActiveSubscription()">
+        <div *ngIf="!authService.isAdmin() && authService.hasActiveSubscription()" class="subscription-info">
           <span class="days-left">{{ authService.getSubscriptionDaysLeft() }} jours restants</span>
         </div>
-        <button pButton [label]="authService.isAdmin() ? 'Admin' : 'Dashboard'" 
-               [icon]="authService.isAdmin() ? 'pi pi-cog' : 'pi pi-user'" 
-               class="p-button-outlined" 
-               (click)="authService.isAdmin() ? router.navigate(['/admin']) : navigateToDashboard()"></button>
+        <button pButton [label]="authService.isAdmin() ? 'Admin' : 'Dashboard'"
+          [icon]="authService.isAdmin() ? 'pi pi-cog' : 'pi pi-user'" class="p-button-outlined"
+          (click)="authService.isAdmin() ? router.navigate(['/admin']) : navigateToDashboard()"></button>
         <button pButton icon="pi pi-sign-out" class="p-button-text" (click)="logout()" pTooltip="Déconnexion"></button>
       </div>
     </div>
   </div>
-  
+
   <!-- Mobile Menu -->
   <div class="mobile-menu" [ngClass]="{'open': mobileMenuOpen}">
     <ul>
@@ -74,7 +73,7 @@
       <li *ngIf="authService.isAuthenticated() && authService.isAdmin()">
         <a (click)="router.navigate(['/admin'])"><i class="pi pi-cog"></i> Administration</a>
       </li>
-      <li *ngIf="authService.isAuthenticated()">
+      <li *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
         <a (click)="navigateToDashboard()"><i class="pi pi-user"></i> Dashboard</a>
       </li>
       <li *ngIf="authService.isAuthenticated()">

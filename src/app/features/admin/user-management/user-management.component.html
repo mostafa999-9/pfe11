@@ -1,0 +1,145 @@
+<div class="user-management">
+  <div class="page-header">
+    <div class="header-content">
+       <button pButton icon="pi pi-arrow-left" label="Retour" class="p-button-text" (click)="goBack()"></button>
+            
+      <div style="padding-left: 70px;">
+        <h1>Gestion des Utilisateurs</h1>
+        <p>Gérez tous les utilisateurs de la plateforme</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-toolbar">
+    <div class="search-container">
+      <span class="p-input-icon-left">
+        <i style="padding-right: 10px;" class="pi pi-search"></i>
+        <input pInputText type="text" placeholder="Rechercher un utilisateur..." 
+               [(ngModel)]="searchTerm" (input)="filterUsers()">
+      </span>
+    </div>
+    <div class="toolbar-actions">
+      <button pButton label="Exporter" icon="pi pi-download" class="p-button-outlined"></button>
+      <button pButton label="Actualiser" icon="pi pi-refresh" (click)="loadUsers()"></button>
+    </div>
+  </div>
+
+  <p-table [value]="filteredUsers" styleClass="p-datatable-striped" 
+           [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} utilisateurs">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Utilisateur</th>
+        <th>Email</th>
+        <th>Titre Professionnel</th>
+        <th>Abonnement</th>
+        <th>Date d'inscription</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>
+          <div class="user-info">
+            <div class="user-avatar">
+              <i class="pi pi-user"></i>
+            </div>
+            <div>
+              <div class="user-name">{{ user.prenom }} {{ user.nom }}</div>
+              <div class="user-username">&#64;{{ user.nomUtilisateur }}</div>
+            </div>
+          </div>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.titreProf }}</td>
+        <td>
+          <p-tag [value]="getSubscriptionLabel(user)" 
+                 [severity]="getSubscriptionSeverity(user)"></p-tag>
+        </td>
+        <td>{{ user.createdAt | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <p-tag [value]="user.role === 'admin' ? 'Admin' : 'Utilisateur'" 
+                 [severity]="user.role === 'admin' ? 'danger' : 'success'"></p-tag>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button pButton icon="pi pi-eye" class="p-button-text p-button-sm" 
+                   pTooltip="Voir détails" (click)="viewUser(user)"></button>
+            <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" 
+                   pTooltip="Modifier" (click)="editUser(user)"></button>
+            <button pButton icon="pi pi-ban" class="p-button-text p-button-sm p-button-warning" 
+                   pTooltip="Suspendre" (click)="suspendUser(user)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" 
+                   pTooltip="Supprimer" (click)="deleteUser(user)"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Dialog de détails utilisateur -->
+  <p-dialog header="Détails de l'utilisateur" [(visible)]="showUserDialog" 
+           [modal]="true" [style]="{width: '600px'}">
+    <div *ngIf="selectedUser" class="user-details">
+      <div class="detail-section">
+        <h4>Informations Personnelles</h4>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Nom complet:</label>
+            <span>{{ selectedUser.prenom }} {{ selectedUser.nom }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Email:</label>
+            <span>{{ selectedUser.email }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Nom d'utilisateur:</label>
+            <span>{{ selectedUser.nomUtilisateur }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Titre professionnel:</label>
+            <span>{{ selectedUser.titreProf }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Adresse:</label>
+            <span>{{ selectedUser.adresse }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Date d'inscription:</label>
+            <span>{{ selectedUser.createdAt | date:'dd/MM/yyyy à HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="selectedUser.abonnement">
+        <h4>Abonnement</h4>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Plan:</label>
+            <span>{{ selectedUser.abonnement.planAbonnementId }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Statut:</label>
+            <p-tag [value]="selectedUser.abonnement.statut" 
+                   [severity]="getSubscriptionSeverity(selectedUser)"></p-tag>
+          </div>
+          <div class="detail-item">
+            <label>Date de début:</label>
+            <span>{{ selectedUser.abonnement.dateDebut | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Date de fin:</label>
+            <span>{{ selectedUser.abonnement.dateFin | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template pTemplate="footer">
+      <button pButton label="Fermer" class="p-button-text" (click)="showUserDialog = false"></button>
+    </ng-template>
+  </p-dialog>
+
+  <p-confirmDialog></p-confirmDialog>
+</div>

@@ -1,0 +1,47 @@
+<div class="statistics-container">
+  <div class="page-header">
+    <div class="header-content">
+      <button pButton icon="pi pi-arrow-left" label="Retour" 
+             class="p-button-text" (click)="goBack()"></button>
+      <div>
+        <h1>Statistiques Globales</h1>
+        <p>Analyse détaillée des performances de la plateforme</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-overview">
+    <p-card>
+      <ng-template pTemplate="header">
+        <h3>Vue d'ensemble</h3>
+      </ng-template>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.totalUsers }}</div>
+          <div class="stat-label">Utilisateurs Total</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.activeSubscriptions }}</div>
+          <div class="stat-label">Abonnements Actifs</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.totalRevenue }}€</div>
+          <div class="stat-label">Revenus Total</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ stats.portfoliosCreated }}</div>
+          <div class="stat-label">Portfolios Créés</div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <div class="charts-section">
+    <p-card>
+      <ng-template pTemplate="header">
+        <h3>Évolution des Revenus</h3>
+      </ng-template>
+      <p-chart type="line" [data]="revenueChartData" [options]="chartOptions"></p-chart>
+    </p-card>
+  </div>
+</div>

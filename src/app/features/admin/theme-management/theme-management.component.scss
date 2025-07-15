@@ -1,0 +1,43 @@
+.theme-management {
+  padding: 2rem;
+  max-width: 1400px;
+   padding-top: 10rem;
+  margin: 0 auto;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-content h1 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.header-content p {
+    margin: 0;
+    color: var(--text-color-secondary);
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}

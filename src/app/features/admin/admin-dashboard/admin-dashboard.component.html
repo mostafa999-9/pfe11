@@ -1,0 +1,113 @@
+<div class="admin-dashboard">
+    <div class="dashboard-header">
+        <h1>Tableau de Bord Administrateur</h1>
+        <p>Vue d'ensemble de la plateforme QuickFolio</p>
+    </div>
+
+    <!-- Statistiques principales -->
+    <div class="stats-grid">
+        <p-card>
+            <div class="stat-card">
+                <div class="stat-icon users">
+                    <i class="pi pi-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.totalUsers }}</h3>
+                    <p>Utilisateurs Total</p>
+                    <small>+12% ce mois</small>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <div class="stat-card">
+                <div class="stat-icon subscriptions">
+                    <i class="pi pi-credit-card"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.activeSubscriptions }}</h3>
+                    <p>Abonnements Actifs</p>
+                    <small>+8% ce mois</small>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <div class="stat-card">
+                <div class="stat-icon revenue">
+                    <i class="pi pi-dollar"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.totalRevenue }}€</h3>
+                    <p>Revenus Total</p>
+                    <small>+15% ce mois</small>
+                </div>
+            </div>
+        </p-card>
+        <p-card>
+            <div class="stat-card">
+                <div class="stat-icon portfolios">
+                    <i class="pi pi-briefcase"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ stats.portfoliosCreated }}</h3>
+                    <p>Portfolios Créés</p>
+                    <small>+20% ce mois</small>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="quick-actions">
+        <h2>Actions Rapides</h2>
+        <div class="actions-grid">
+            <button pButton label="Gérer les Utilisateurs" icon="pi pi-users" class="p-button-raised"
+                (click)="navigateTo('/admin/users')"></button>
+            <button pButton label="Plans d'Abonnement" icon="pi pi-credit-card" class="p-button-raised"
+                (click)="navigateTo('/admin/plans')"></button>
+            <button pButton label="Gérer les Thèmes" icon="pi pi-palette" class="p-button-raised"
+                (click)="navigateTo('/admin/themes')"></button>
+            <!-- <button pButton label="Voir les Statistiques" icon="pi pi-chart-bar" class="p-button-raised"
+                (click)="navigateTo('/admin/statistics')"></button> -->
+        </div>
+    </div>
+
+    <!-- Graphique des revenus -->
+    <div class="charts-section">
+        <p-card>
+            <ng-template pTemplate="header">
+                <h3 style="padding: 30px 0 0 30px ;">Évolution des Revenus</h3>
+            </ng-template>
+            <p-chart width="600" height="400" type="line" [data]="revenueChartData" [options]="chartOptions"></p-chart>
+        </p-card>
+    </div>
+
+    <!-- Activité récente -->
+    <div class="recent-activity">
+        <p-card>
+            <ng-template pTemplate="header">
+                <h3 style="padding: 30px 0 0 30px ;">Activité Récente</h3>
+            </ng-template>
+            <p-table [value]="recentActivities" styleClass="p-datatable-striped">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Utilisateur</th>
+                        <th>Date</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-activity>
+                    <tr>
+                        <td>
+                            <p-tag [value]="getActivityTypeLabel(activity.type)"
+                                [severity]="getActivityTypeSeverity(activity.type)"></p-tag>
+                        </td>
+                        <td>{{ activity.description }}</td>
+                        <td>{{ activity.user }}</td>
+                        <td>{{ activity.timestamp | date:'short':'fr' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
