@@ -13,6 +13,8 @@ import { SliderModule } from 'primeng/slider';
 import { PortfolioService } from '../../../../core/services/portfolio.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Competence, TypeCompetence } from '../../../../core/models/portfolio.model';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-competences',
@@ -22,8 +24,8 @@ import { Competence, TypeCompetence } from '../../../../core/models/portfolio.mo
     ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
-    SelectModule,
-    DataViewModule,
+    DropdownModule,
+    TableModule,
     DialogModule,
     ConfirmDialogModule,
     TagModule,
@@ -31,49 +33,40 @@ import { Competence, TypeCompetence } from '../../../../core/models/portfolio.mo
   ],
   template: `
     <div class="section-header">
-      <h2>Compétences</h2>
-      <p>Gérez vos compétences techniques et comportementales</p>
+      <div>
+        <h2>Compétences</h2>
+        <p>Gérez vos compétences techniques et comportementales</p>
+      </div>
       <button pButton label="Ajouter une compétence" icon="pi pi-plus" 
              class="p-button-raised" (click)="showDialog()"></button>
     </div>
     
-    <p-dataView [value]="competences" layout="grid">
-      <ng-template pTemplate="grid" let-competence>
-        <div class="col-12 md:col-6 lg:col-4 p-2">
-          <div class="competence-card">
-            <div class="competence-header">
-              <h4>{{ competence.nom }}</h4>
-              <div class="competence-actions">
-                <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" 
-                       (click)="editCompetence(competence)" pTooltip="Modifier"></button>
-                <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" 
-                       (click)="deleteCompetence(competence)" pTooltip="Supprimer"></button>
-              </div>
-            </div>
-            <div class="competence-type">
-              <small>{{ getTypeCompetenceName(competence.typeCompetenceId) }}</small>
-            </div>
-            <div class="competence-niveau">
-              <div class="niveau-label">
-                <span>Niveau: </span>
-                <p-tag [value]="getNiveauLabel(competence.niveau)" 
-                       [severity]="getNiveauSeverity(competence.niveau)"></p-tag>
-              </div>
-              <div class="niveau-bar">
-                <div class="niveau-progress" [style.width.%]="getNiveauPercentage(competence.niveau)"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <p-table [value]="competences" styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nom</th>
+          <th>Type</th>
+          <th>Niveau</th>
+          <th>Actions</th>
+        </tr>
       </ng-template>
-      <ng-template pTemplate="empty">
-        <div class="empty-state">
-          <i class="pi pi-star" style="font-size: 3rem; color: #ccc;"></i>
-          <h3>Aucune compétence ajoutée</h3>
-          <p>Commencez par ajouter vos compétences professionnelles</p>
-        </div>
+      <ng-template pTemplate="body" let-competence>
+        <tr>
+          <td>{{ competence.nom }}</td>
+          <td>{{ getTypeCompetenceName(competence.typeCompetenceId) }}</td>
+          <td>
+            <p-tag [value]="getNiveauLabel(competence.niveau)" 
+                   [severity]="getNiveauSeverity(competence.niveau)"></p-tag>
+          </td>
+          <td>
+            <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" 
+                   (click)="editCompetence(competence)"></button>
+            <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" 
+                   (click)="deleteCompetence(competence)"></button>
+          </td>
+        </tr>
       </ng-template>
-    </p-dataView>
+    </p-table>
     
     <p-dialog header="{{editMode ? 'Modifier' : 'Ajouter'}} une compétence" 
              [(visible)]="displayDialog" [modal]="true" [style]="{width: '450px'}">
@@ -86,9 +79,9 @@ import { Competence, TypeCompetence } from '../../../../core/models/portfolio.mo
         
         <div class="form-group">
           <label for="typeCompetenceId">Type *</label>
-          <p-select id="typeCompetenceId" formControlName="typeCompetenceId" 
+          <p-dropdown id="typeCompetenceId" formControlName="typeCompetenceId" 
                    [options]="typesCompetences" optionLabel="nom" optionValue="id"
-                   placeholder="Sélectionner un type" class="w-full"></p-select>
+                   placeholder="Sélectionner un type" class="w-full"></p-dropdown>
           <small *ngIf="typeCompetenceId?.invalid && typeCompetenceId?.touched" class="p-error">Le type est requis</small>
         </div>
         
@@ -121,16 +114,6 @@ import { Competence, TypeCompetence } from '../../../../core/models/portfolio.mo
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 2rem;
-    }
-    
-    .section-header div h2 {
-      margin-bottom: 0.5rem;
-      color: var(--text-color);
-    }
-    
-    .section-header div p {
-      color: var(--text-color-secondary);
-      margin: 0;
     }
     
     .competence-card {

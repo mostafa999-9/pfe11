@@ -8,6 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface ThemeInfo {
   id: string;
@@ -34,8 +35,14 @@ interface ThemeInfo {
   template: `
     <div class="theme-management">
       <div class="page-header">
-        <h1>Gestion des Thèmes</h1>
-        <p>Gérez les thèmes disponibles sur la plateforme</p>
+        <div class="header-content">
+          <button pButton icon="pi pi-arrow-left" label="Retour" 
+                 class="p-button-text" (click)="goBack()"></button>
+          <div>
+            <h1>Gestion des Thèmes</h1>
+            <p>Gérez les thèmes disponibles sur la plateforme</p>
+          </div>
+        </div>
         <button pButton label="Ajouter un thème" icon="pi pi-plus" 
                class="p-button-raised" (click)="showAddDialog()"></button>
       </div>
@@ -130,7 +137,10 @@ export class AdminThemeManagementComponent implements OnInit {
   showDialog = false;
   currentTheme: any = {};
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadThemes();
@@ -186,5 +196,9 @@ export class AdminThemeManagementComponent implements OnInit {
       summary: 'Thème supprimé',
       detail: `Le thème ${theme.name} a été supprimé`
     });
+  }
+  
+  goBack() {
+    this.router.navigate(['/admin']);
   }
 }

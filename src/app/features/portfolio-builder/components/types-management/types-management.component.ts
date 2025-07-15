@@ -30,9 +30,22 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
         <p>Gérez vos types de compétences et de projets personnalisés</p>
       </div>
       
-      <p-tabView>
-        <!-- Onglet Types de Compétences -->
-        <p-tabPanel header="Types de Compétences" leftIcon="pi pi-star">
+      <div class="tab-buttons">
+        <button pButton 
+                [label]="'Types de Compétences'" 
+                icon="pi pi-star"
+                [class]="activeTab === 'competences' ? 'p-button-raised' : 'p-button-outlined'"
+                (click)="activeTab = 'competences'"></button>
+        <button pButton 
+                [label]="'Types de Projets'" 
+                icon="pi pi-briefcase"
+                [class]="activeTab === 'projets' ? 'p-button-raised' : 'p-button-outlined'"
+                (click)="activeTab = 'projets'"></button>
+      </div>
+      
+      <div class="tab-content">
+        <!-- Types de Compétences -->
+        <div *ngIf="activeTab === 'competences'">
           <div class="tab-content">
             <div class="tab-header">
               <h3>Types de Compétences</h3>
@@ -72,10 +85,10 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
               </ng-template>
             </p-dataView>
           </div>
-        </p-tabPanel>
+        </div>
         
-        <!-- Onglet Types de Projets -->
-        <p-tabPanel header="Types de Projets" leftIcon="pi pi-briefcase">
+        <!-- Types de Projets -->
+        <div *ngIf="activeTab === 'projets'">
           <div class="tab-content">
             <div class="tab-header">
               <h3>Types de Projets</h3>
@@ -115,8 +128,8 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
               </ng-template>
             </p-dataView>
           </div>
-        </p-tabPanel>
-      </p-tabView>
+        </div>
+      </div>
       
       <!-- Dialog pour Types de Compétences -->
       <p-dialog header="{{editModeCompetence ? 'Modifier' : 'Ajouter'}} un type de compétence" 
@@ -193,6 +206,12 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
     .section-header p {
       color: var(--text-color-secondary);
       margin: 0;
+    }
+    
+    .tab-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
     
     .tab-content {
@@ -305,14 +324,6 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
       margin: 0;
     }
     
-    :host ::ng-deep .p-tabview .p-tabview-panels {
-      padding: 0;
-    }
-    
-    :host ::ng-deep .p-dataview .p-dataview-content {
-      background: transparent;
-    }
-    
     @media (max-width: 768px) {
       .tab-header {
         flex-direction: column;
@@ -325,6 +336,7 @@ import { TypeCompetence, TypeProjet } from '../../../../core/models/portfolio.mo
 export class TypesManagementComponent implements OnInit {
   typesCompetences: TypeCompetence[] = [];
   typesProjets: TypeProjet[] = [];
+  activeTab = 'competences';
   
   competenceTypeForm: FormGroup;
   projetTypeForm: FormGroup;

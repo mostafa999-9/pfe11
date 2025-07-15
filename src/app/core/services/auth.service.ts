@@ -42,7 +42,7 @@ export class AuthService {
         titreProf: 'Développeur Full Stack',
         adresse: 'Paris, France',
         surNom: 'JD',
-        role: 'user' as const,
+        role: 'admin' as const,
         abonnement: {
           id: '1',
           statut: 'actif' as const,

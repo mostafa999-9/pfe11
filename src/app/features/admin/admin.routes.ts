@@ -10,8 +10,8 @@ export const adminRoutes: Routes = [
     loadComponent: () => import('./user-management/user-management.component').then(m => m.UserManagementComponent)
   },
   {
-    path: 'subscriptions',
-    loadComponent: () => import('./subscription-management/subscription-management.component').then(m => m.AdminSubscriptionManagementComponent)
+    path: 'plans',
+    loadComponent: () => import('./plan-management/plan-management.component').then(m => m.PlanManagementComponent)
   },
   {
     path: 'themes',

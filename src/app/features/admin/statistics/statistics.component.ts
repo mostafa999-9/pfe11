@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { TableModule } from 'primeng/table';
+import { Router } from '@angular/router';
 
 interface StatisticsData {
   totalUsers: number;
@@ -26,8 +27,14 @@ interface StatisticsData {
   template: `
     <div class="statistics-container">
       <div class="page-header">
-        <h1>Statistiques Globales</h1>
-        <p>Analyse détaillée des performances de la plateforme</p>
+        <div class="header-content">
+          <button pButton icon="pi pi-arrow-left" label="Retour" 
+                 class="p-button-text" (click)="goBack()"></button>
+          <div>
+            <h1>Statistiques Globales</h1>
+            <p>Analyse détaillée des performances de la plateforme</p>
+          </div>
+        </div>
       </div>
 
       <div class="stats-overview">
@@ -118,6 +125,8 @@ export class StatisticsComponent implements OnInit {
   revenueChartData: any;
   chartOptions: any;
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.initializeChartData();
   }
@@ -149,5 +158,9 @@ export class StatisticsComponent implements OnInit {
         }
       }
     };
+  }
+  
+  goBack() {
+    this.router.navigate(['/admin']);
   }
 }

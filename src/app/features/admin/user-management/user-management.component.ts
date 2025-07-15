@@ -10,6 +10,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { User } from '../../../core/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-management',
@@ -28,8 +29,14 @@ import { User } from '../../../core/models/user.model';
   template: `
     <div class="user-management">
       <div class="page-header">
-        <h1>Gestion des Utilisateurs</h1>
-        <p>Gérez tous les utilisateurs de la plateforme</p>
+        <div class="header-content">
+          <button pButton icon="pi pi-arrow-left" label="Retour" 
+                 class="p-button-text" (click)="goBack()"></button>
+          <div>
+            <h1>Gestion des Utilisateurs</h1>
+            <p>Gérez tous les utilisateurs de la plateforme</p>
+          </div>
+        </div>
       </div>
 
       <div class="table-toolbar">
@@ -299,7 +306,8 @@ export class UserManagementComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -428,5 +436,9 @@ export class UserManagementComponent implements OnInit {
       case 'suspendu': return 'warning';
       default: return 'secondary';
     }
+  }
+  
+  goBack() {
+    this.router.navigate(['/admin']);
   }
 }

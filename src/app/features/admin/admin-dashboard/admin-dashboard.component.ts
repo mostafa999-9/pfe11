@@ -101,8 +101,8 @@ interface RecentActivity {
         <div class="actions-grid">
           <button pButton label="Gérer les Utilisateurs" icon="pi pi-users" 
                  class="p-button-raised" (click)="navigateTo('/admin/users')"></button>
-          <button pButton label="Gérer les Abonnements" icon="pi pi-credit-card" 
-                 class="p-button-raised" (click)="navigateTo('/admin/subscriptions')"></button>
+          <button pButton label="Plans d'Abonnement" icon="pi pi-credit-card" 
+                 class="p-button-raised" (click)="navigateTo('/admin/plans')"></button>
           <button pButton label="Gérer les Thèmes" icon="pi pi-palette" 
                  class="p-button-raised" (click)="navigateTo('/admin/themes')"></button>
           <button pButton label="Voir les Statistiques" icon="pi pi-chart-bar" 
