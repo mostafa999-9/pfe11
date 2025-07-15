@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -15,6 +16,7 @@ import { User } from '../../../core/models/user.model';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     ButtonModule,
     TableModule,
     TagModule,
