@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
 interface ThemeInfo {
@@ -27,7 +28,8 @@ interface ThemeInfo {
     TableModule,
     TagModule,
     DialogModule,
-    InputTextModule
+    InputTextModule,
+    FormsModule
   ],
   template: `
     <div class="theme-management">

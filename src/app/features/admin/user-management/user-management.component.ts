@@ -69,7 +69,7 @@ import { User } from '../../../core/models/user.model';
                 </div>
                 <div>
                   <div class="user-name">{{ user.prenom }} {{ user.nom }}</div>
-                  <div class="user-username">@{{ user.nomUtilisateur }}</div>
+                  <div class="user-username">&#64;{{ user.nomUtilisateur }}</div>
                 </div>
               </div>
             </td>
