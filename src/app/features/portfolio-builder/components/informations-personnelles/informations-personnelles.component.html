@@ -1,0 +1,56 @@
+<div class="section-header">
+  <h2>Informations Personnelles</h2>
+  <p>Complétez vos informations personnelles pour votre portfolio</p>
+</div>
+<form [formGroup]="infoForm" (ngSubmit)="onSubmit()" class="info-form">
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="nom">Nom *</label>
+      <input pInputText id="nom" formControlName="nom" placeholder="Votre nom" />
+      <small *ngIf="nom?.invalid && nom?.touched" class="p-error">Le nom est requis</small>
+    </div>
+    <div class="form-group">
+      <label for="prenom">Prénom *</label>
+      <input pInputText id="prenom" formControlName="prenom" placeholder="Votre prénom" />
+      <small *ngIf="prenom?.invalid && prenom?.touched" class="p-error">Le prénom est requis</small>
+    </div>
+    <div class="form-group">
+      <label for="email">Email *</label>
+      <input pInputText id="email" formControlName="email" placeholder="votre@email.com" />
+      <small *ngIf="email?.invalid && email?.touched" class="p-error">Email valide requis</small>
+    </div>
+    <div class="form-group">
+      <label for="telephone">Téléphone</label>
+      <input pInputText id="telephone" formControlName="telephone" placeholder="+33 6 12 34 56 78" />
+    </div>
+    <div class="form-group full-width">
+      <label for="adresse">Adresse *</label>
+      <input pInputText id="adresse" formControlName="adresse" placeholder="Votre adresse complète" />
+      <small *ngIf="adresse?.invalid && adresse?.touched" class="p-error">L'adresse est requise</small>
+    </div>
+    <div class="form-group">
+      <label for="dateNaissance">Date de naissance</label>
+      <p-calendar id="dateNaissance" formControlName="dateNaissance" [showIcon]="true" dateFormat="dd/mm/yy"></p-calendar>
+    </div>
+    <div class="form-group">
+      <label for="nationalite">Nationalité</label>
+      <input pInputText id="nationalite" formControlName="nationalite" placeholder="Française" />
+    </div>
+    <div class="form-group full-width">
+      <label for="description">Description professionnelle</label>
+      <textarea pInputTextarea id="description" formControlName="description" 
+               placeholder="Décrivez-vous en quelques mots..." rows="4"></textarea>
+    </div>
+    <div class="form-group full-width">
+      <label>Photo de profil</label>
+      <p-fileUpload mode="basic" name="photo" accept="image/*" 
+                   [maxFileSize]="1000000" chooseLabel="Choisir une photo"
+                   (onSelect)="onPhotoSelect($event)"></p-fileUpload>
+      <small class="p-help">Format accepté: JPG, PNG (max 1MB)</small>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button pButton type="submit" label="Sauvegarder" icon="pi pi-save" 
+           class="p-button-raised" [loading]="loading" [disabled]="infoForm.invalid"></button>
+  </div>
+</form>

@@ -1,0 +1,75 @@
+<div class="section-header ">
+  <div class="text-left">
+    <h2>Compétences</h2>
+    <p>Gérez vos compétences techniques et comportementales</p>
+  </div>
+  <button pButton label="Ajouter une compétence" icon="pi pi-plus" 
+         class="p-button-raised" (click)="showDialog()"></button>
+</div>
+
+<p-table [value]="competences" styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nom</th>
+      <th>Type</th>
+      <th>Niveau</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-competence>
+    <tr>
+      <td>{{ competence.nom }}</td>
+      <td>{{ getTypeCompetenceName(competence.typeCompetenceId) }}</td>
+      <td>
+        <p-tag [value]="getNiveauLabel(competence.niveau)" 
+               [severity]="getNiveauSeverity(competence.niveau)"></p-tag>
+      </td>
+      <td>
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" 
+               (click)="editCompetence(competence)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" 
+               (click)="deleteCompetence(competence)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog header="{{editMode ? 'Modifier' : 'Ajouter'}} une compétence" 
+         [(visible)]="displayDialog" [modal]="true" [style]="{width: '450px'}">
+  <form [formGroup]="competenceForm" (ngSubmit)="saveCompetence()">
+    <div class="form-group">
+      <label for="nom">Nom de la compétence *</label>
+      <input pInputText id="nom" formControlName="nom" placeholder="Ex: Angular, JavaScript..." />
+      <small *ngIf="nom?.invalid && nom?.touched" class="p-error">Le nom est requis</small>
+    </div>
+    
+    <div class="form-group">
+      <label for="typeCompetenceId">Type *</label>
+      <p-dropdown id="typeCompetenceId" formControlName="typeCompetenceId" 
+               [options]="typesCompetences" optionLabel="nom" optionValue="id"
+               placeholder="Sélectionner un type" class="w-full"></p-dropdown>
+      <small *ngIf="typeCompetenceId?.invalid && typeCompetenceId?.touched" class="p-error">Le type est requis</small>
+    </div>
+    
+    <div class="form-group">
+      <label for="niveau">Niveau * ({{ getNiveauLabel(niveauValue) }})</label>
+      <p-slider formControlName="niveau" [min]="1" [max]="4" [step]="1" class="w-full"></p-slider>
+      <div class="niveau-labels">
+        <span>Débutant</span>
+        <span>Intermédiaire</span>
+        <span>Avancé</span>
+        <span>Expert</span>
+      </div>
+      <small *ngIf="niveau?.invalid && niveau?.touched" class="p-error">Le niveau est requis</small>
+    </div>
+    
+    <div class="dialog-actions">
+      <button pButton type="button" label="Annuler" class="p-button-text" 
+             (click)="hideDialog()"></button>
+      <button pButton type="submit" label="Sauvegarder" class="p-button-raised" 
+             [loading]="loading" [disabled]="competenceForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>

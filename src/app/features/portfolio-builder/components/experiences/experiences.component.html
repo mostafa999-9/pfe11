@@ -1,0 +1,73 @@
+<div class="section-header">
+  <div>
+    <h2>Expériences Professionnelles</h2>
+    <p>Ajoutez vos expériences de travail</p>
+  </div>
+  <button pButton label="Ajouter une expérience" icon="pi pi-plus" 
+         class="p-button-raised" (click)="showDialog()"></button>
+</div>
+
+<p-table [value]="experiences" styleClass="p-datatable-striped">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Poste</th>
+      <th>Entreprise</th>
+      <th>Période</th>
+      <th>Lieu</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-experience>
+    <tr>
+      <td>{{ experience.poste }}</td>
+      <td>{{ experience.entreprise }}</td>
+      <td>{{ formatPeriode(experience.dateDebut, experience.dateFin) }}</td>
+      <td>{{ experience.lieu || '-' }}</td>
+      <td>
+        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" 
+               (click)="editExperience(experience)"></button>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" 
+               (click)="deleteExperience(experience)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog header="{{editMode ? 'Modifier' : 'Ajouter'}} une expérience" 
+         [(visible)]="displayDialog" [modal]="true" [style]="{width: '600px'}">
+  <form [formGroup]="experienceForm" (ngSubmit)="saveExperience()">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="poste">Poste *</label>
+        <input pInputText id="poste" formControlName="poste" />
+      </div>
+      <div class="form-group">
+        <label for="entreprise">Entreprise *</label>
+        <input pInputText id="entreprise" formControlName="entreprise" />
+      </div>
+      <div class="form-group">
+        <label for="dateDebut">Date de début *</label>
+        <p-calendar id="dateDebut" formControlName="dateDebut" [showIcon]="true"></p-calendar>
+      </div>
+      <div class="form-group">
+        <label for="dateFin">Date de fin</label>
+        <p-calendar id="dateFin" formControlName="dateFin" [showIcon]="true"></p-calendar>
+      </div>
+      <div class="form-group full-width">
+        <label for="lieu">Lieu</label>
+        <input pInputText id="lieu" formControlName="lieu" placeholder="Ville, Pays" />
+      </div>
+      <div class="form-group full-width">
+        <label for="description">Description *</label>
+        <textarea pInputTextarea id="description" formControlName="description" 
+                 rows="4" placeholder="Décrivez vos missions et réalisations..."></textarea>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button pButton type="button" label="Annuler" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton type="submit" label="Sauvegarder" class="p-button-raised" 
+             [loading]="loading" [disabled]="experienceForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+<p-confirmDialog></p-confirmDialog>

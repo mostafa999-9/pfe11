@@ -29,68 +29,8 @@ interface SubscriptionInfo {
     TagModule,
     ConfirmDialogModule
   ],
-  template: `
-    <div class="subscription-management">
-      <div class="page-header">
-        <h1>Gestion des Abonnements</h1>
-        <p>Gérez tous les abonnements de la plateforme</p>
-      </div>
-
-      <p-table [value]="subscriptions" styleClass="p-datatable-striped" 
-               [paginator]="true" [rows]="10">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Utilisateur</th>
-            <th>Plan</th>
-            <th>Statut</th>
-            <th>Date de début</th>
-            <th>Date de fin</th>
-            <th>Montant</th>
-            <th>Actions</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-subscription>
-          <tr>
-            <td>{{ subscription.userName }}</td>
-            <td>{{ subscription.planName }}</td>
-            <td>
-              <p-tag [value]="getStatusLabel(subscription.status)" 
-                     [severity]="getStatusSeverity(subscription.status)"></p-tag>
-            </td>
-            <td>{{ subscription.startDate | date:'dd/MM/yyyy' }}</td>
-            <td>{{ subscription.endDate | date:'dd/MM/yyyy' }}</td>
-            <td>{{ subscription.amount }}€</td>
-            <td>
-              <div class="action-buttons">
-                <button pButton icon="pi pi-ban" class="p-button-text p-button-sm p-button-warning" 
-                       (click)="cancelSubscription(subscription)"></button>
-                <button pButton icon="pi pi-refresh" class="p-button-text p-button-sm" 
-                       (click)="renewSubscription(subscription)"></button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-      <p-confirmDialog></p-confirmDialog>
-    </div>
-  `,
-  styles: [`
-    .subscription-management {
-      padding: 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .page-header {
-      margin-bottom: 2rem;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 0.25rem;
-    }
-  `]
+  templateUrl: './subscription-management.component.html',
+  styleUrls: ['./subscription-management.component.scss']
 })
 export class AdminSubscriptionManagementComponent implements OnInit {
   subscriptions: SubscriptionInfo[] = [];

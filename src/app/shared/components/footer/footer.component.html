@@ -7,7 +7,7 @@
       </div>
       
       <div class="quick-links">
-        <h4>Liens rapides</h4>
+        <h4 class="text-bluegray-200">Liens rapides</h4>
         <ul *ngIf="!authService.isAuthenticated()">
           <li><a (click)="router.navigate(['/'])">Accueil</a></li>
           <li><a (click)="router.navigate(['/pricing'])">Tarifs</a></li>
@@ -22,11 +22,11 @@
       </div>
       
       <div class="footer-contact">
-        <h4>Contact</h4>
+        <h4 class="text-blue-50">Contact</h4>
         <ul>
-          <li><i class="pi pi-envelope"></i> contact QuickFolio.com</li>
-          <li><i class="pi pi-phone"></i> +33 1 23 45 67 89</li>
-          <li><i class="pi pi-map-marker"></i> Paris, France</li>
+          <li><i class="pi pi-envelope"></i>QuickFolio&#64;gmail.com</li>
+          <li><i class="pi pi-phone"></i> +212 610 853 494</li>
+          <li><i class="pi pi-map-marker"></i> Casablanca, Maroc</li>
         </ul>
       </div>
     </div>

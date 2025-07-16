@@ -60,7 +60,7 @@ export class HomeComponent {
     },
     {
       title: 'Templates Professionnels',
-      description: 'Choisissez parmi une large sélection de templates modernes et personnalisables.',
+      description: 'Choisissez parmi une large sélection de templates modernes' ,// et personnalisables.',
       icon: 'pi pi-palette'
     },
     {
