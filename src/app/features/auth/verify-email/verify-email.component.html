@@ -1,0 +1,68 @@
+<div class="verify-email-container">
+  <div class="verify-email-card">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="card-header">
+          <i class="pi pi-envelope" style="font-size: 3rem; color: var(--primary-color);"></i>
+          <h2>Vérification de votre email</h2>
+        </div>
+      </ng-template>
+
+      <div class="email-verification-content">
+        <div *ngIf="!verificationSent && loading" class="loading-state">
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+          <p>Envoi de l'email de vérification...</p>
+        </div>
+
+        <div *ngIf="verificationSent" class="verification-sent">
+          <div class="success-icon">
+            <i class="pi pi-check-circle" style="font-size: 2rem; color: var(--success-color);"></i>
+          </div>
+          
+          <h3>Email de vérification envoyé !</h3>
+          
+          <p class="email-info">
+            Nous avons envoyé un email de vérification à :
+            <strong>{{ email }}</strong>
+          </p>
+          
+          <p class="instructions">
+            Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification 
+            pour activer votre compte.
+          </p>
+
+          <div class="verification-actions">
+            <button pButton 
+                    label="J'ai vérifié mon email" 
+                    icon="pi pi-check"
+                    class="p-button-raised p-button-lg"
+                    (click)="verifyEmail()"
+                    [loading]="loading"></button>
+            
+            <button pButton 
+                    label="Renvoyer l'email" 
+                    icon="pi pi-refresh"
+                    class="p-button-outlined"
+                    (click)="resendEmail()"
+                    [loading]="loading"></button>
+          </div>
+
+          <div class="help-section">
+            <p class="help-text">
+              <i class="pi pi-info-circle"></i>
+              Vous ne trouvez pas l'email ? Vérifiez votre dossier spam ou courrier indésirable.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="card-footer">
+          <p>Vous avez déjà un compte ? 
+            <a (click)="goToLogin()" class="login-link">Se connecter</a>
+          </p>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

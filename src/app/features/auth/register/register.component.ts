@@ -31,7 +31,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   loading = false;
-  selectedPlan = 'gratuit';
+  selectedPlan = '';
   
   constructor(
     private fb: FormBuilder,
@@ -55,8 +55,8 @@ export class RegisterComponent {
     
     // Récupérer le plan sélectionné depuis les paramètres de requête
     this.route.queryParams.subscribe(params => {
-      if (params['plan']) {
-        this.selectedPlan = params['plan'];
+      if (params['selectedPlan']) {
+        this.selectedPlan = params['selectedPlan'];
       }
     });
   }
@@ -83,9 +83,15 @@ export class RegisterComponent {
           this.messageService.add({
             severity: 'success',
             summary: 'Inscription réussie',
-            detail: 'Votre compte a été créé avec succès ! Profitez de vos 3 jours gratuits.'
+            detail: 'Un email de vérification a été envoyé à votre adresse email.'
           });
-          this.router.navigate(['/dashboard']);
+          // Rediriger vers la page de vérification d'email
+          this.router.navigate(['/auth/verify-email'], {
+            queryParams: { 
+              email: formData.email,
+              selectedPlan: this.selectedPlan 
+            }
+          });
         },
         error: (error) => {
           this.messageService.add({

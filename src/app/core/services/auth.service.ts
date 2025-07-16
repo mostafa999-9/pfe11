@@ -86,14 +86,7 @@ export class AuthService {
         adresse: data.adresse,
         surNom: data.surNom,
         role: 'user' as const,
-        abonnement: {
-          id: '1',
-          statut: 'actif' as const,
-          planAbonnementId: 'gratuit',
-          dateDebut: new Date(),
-          dateFin: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 jours gratuits
-          utilisateurId: '1'
-        },
+        // Pas d'abonnement lors de l'inscription, sera ajouté après vérification email
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -101,15 +94,16 @@ export class AuthService {
     }).pipe(
       delay(1000),
       map(response => {
-        this.currentUser.set(response.user);
-        this.token.set(response.token);
-        
-        sessionStorage.setItem('user', JSON.stringify(response.user));
-        sessionStorage.setItem('token', response.token);
+        // Ne pas connecter automatiquement, attendre la vérification email
         
         return response;
       })
     );
+  }
+  
+  verifyEmail(email: string): Observable<boolean> {
+    // Simulation de vérification d'email
+    return of(true).pipe(delay(1000));
   }
   
   logout(): void {

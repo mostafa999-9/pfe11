@@ -158,12 +158,9 @@ export class PricingComponent implements OnInit, AfterViewInit {
   }
   
   selectPlan(plan: PricingPlan) {
-    if (plan.price === 0) {
-      this.router.navigate(['/auth/register']);
-    } else {
-      this.router.navigate(['/auth/register'], { 
-        queryParams: { plan: plan.name.toLowerCase().replace(' ', '-') } 
-      });
-    }
+    // Rediriger vers l'inscription avec le plan sélectionné
+    this.router.navigate(['/auth/register'], { 
+      queryParams: { selectedPlan: plan.name.toLowerCase().replace(' ', '-') } 
+    });
   }
 }

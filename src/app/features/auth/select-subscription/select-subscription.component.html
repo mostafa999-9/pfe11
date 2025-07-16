@@ -1,0 +1,69 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <h1>Choisissez votre abonnement</h1>
+    <p>Sélectionnez le plan qui correspond le mieux à vos besoins</p>
+  </div>
+
+  <div class="plans-grid">
+    <div class="plan-card" 
+         *ngFor="let plan of plans; let i = index" 
+         [ngClass]="{'popular': plan.popular, 'selected': selectedPlan === plan.id}">
+      
+      <div class="popular-badge" *ngIf="plan.popular">
+        <span>Recommandé</span>
+      </div>
+      
+      <div class="plan-header">
+        <h3>{{ plan.name }}</h3>
+        <div class="price">
+          <span class="currency">€</span>
+          <span class="amount">{{ plan.price }}</span>
+          <span class="period">/ {{ plan.period }}</span>
+        </div>
+        <p class="description">{{ plan.description }}</p>
+        <div class="trial-info" *ngIf="plan.trialDays">
+          <p-chip label="3 jours gratuits" icon="pi pi-gift" styleClass="trial-chip"></p-chip>
+        </div>
+      </div>
+      
+      <div class="plan-features">
+        <ul>
+          <li *ngFor="let feature of plan.features">
+            <i class="pi pi-check"></i>
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+      
+      <div class="plan-action">
+        <button pButton 
+                [label]="plan.price === 0 ? 'Commencer l\'essai gratuit' : 'Choisir ce plan'" 
+                class="p-button-raised p-button-lg w-full"
+                (click)="selectPlan(plan)"
+                [loading]="loading && selectedPlan === plan.id"
+                *ngIf="plan.price === 0">
+        </button>
+        
+        <!-- Bouton PayPal pour les plans payants -->
+        <div *ngIf="plan.price > 0" class="payment-options">
+          <button pButton 
+                  [label]="'Choisir ' + plan.name" 
+                  class="p-button-outlined p-button-lg w-full"
+                  (click)="selectPlan(plan)"
+                  style="margin-bottom: 1rem;">
+          </button>
+          <div class="paypal-container">
+            <p class="payment-label">Payer avec PayPal:</p>
+            <div [id]="'paypal-button-' + i" class="paypal-button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subscription-footer">
+    <p>Vous avez déjà un compte ? 
+      <a (click)="goToLogin()" class="login-link">Se connecter</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,214 @@
+.subscription-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 6rem 2rem 2rem;
+}
+
+.subscription-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.subscription-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.subscription-header p {
+  font-size: 1.1rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.plan-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all var(--transition-normal);
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.plan-card.popular {
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.plan-card.popular:hover {
+  transform: scale(1.05) translateY(-10px);
+}
+
+.plan-card.selected {
+  border-color: var(--success-color);
+  background: #f8fff8;
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.plan-header h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.currency {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.amount {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0.25rem;
+}
+
+.period {
+  font-size: 1rem;
+  color: var(--text-color-secondary);
+}
+
+.description {
+  color: var(--text-color-secondary);
+  margin-bottom: 1rem;
+}
+
+.trial-info {
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .trial-chip {
+  background: linear-gradient(135deg, var(--success-color), var(--secondary-color)) !important;
+  color: white !important;
+}
+
+.plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-features i {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.plan-action {
+  text-align: center;
+}
+
+.payment-options {
+  width: 100%;
+}
+
+.paypal-container {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.payment-label {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.paypal-button {
+  min-height: 45px;
+}
+
+.subscription-footer {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.subscription-footer p {
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.login-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .subscription-container {
+    padding: 4rem 1rem 2rem;
+  }
+  
+  .subscription-header h1 {
+    font-size: 2rem;
+  }
+  
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .plan-card.popular {
+    transform: none;
+  }
+  
+  .plan-card.popular:hover {
+    transform: translateY(-10px);
+  }
+}
