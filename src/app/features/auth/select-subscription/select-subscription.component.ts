@@ -7,8 +7,9 @@ import { ChipModule } from 'primeng/chip';
 import { MessageService } from 'primeng/api';
 import { PaymentService } from '../../../core/services/payment.service';
 import { SubscriptionService } from '../../../core/services/subscription.service';
+import { PanelModule } from 'primeng/panel';
 
-interface SubscriptionPlan {
+interface PricingPlan {
   id: string;
   name: string;
   price: number;
@@ -26,7 +27,8 @@ interface SubscriptionPlan {
     CommonModule,
     ButtonModule,
     CardModule,
-    ChipModule
+    ChipModule,
+    PanelModule
   ],
   templateUrl: './select-subscription.component.html',
   styleUrls: ['./select-subscription.component.css']
@@ -35,49 +37,67 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
   selectedPlan = '';
   loading = false;
 
-  plans: SubscriptionPlan[] = [
+  plans: PricingPlan[] = [
     {
-      id: 'gratuit',
+      id: "GUID",
       name: 'Essai Gratuit',
       price: 0,
       period: '3 jours',
       description: 'Accès complet à toutes les fonctionnalités',
       trialDays: 3,
       features: [
-        'Accès à toutes les fonctionnalités',
+        'Accès à toutes les fonctionnalités de la plateforme',
         'Tous les templates disponibles',
-        'Un portfolio professionnel',
-        'Support prioritaire',
+        'Création d\'un portfolio professionnel',
+        // 'Domaine personnalisé',
+        'Mises à jour automatiques',
+        // 'Analytics avancés',
+        'SSL inclus',
+        // 'Support prioritaire',
         'Aucune limitation pendant 3 jours'
       ],
-      popular: true
+      popular: true,
     },
     {
-      id: 'mensuel',
+      id: "GUID",
       name: 'Plan Mensuel',
-      price: 19.99,
+      price: 69,
       period: '30 jours',
       description: 'Continuez après l\'essai gratuit',
       features: [
-        'Accès à toutes les fonctionnalités',
+        'Accès à toutes les fonctionnalités de la plateforme',
         'Un portfolio professionnel',
         'Tous les templates disponibles',
+        // 'Domaine personnalisé',
+        // 'Analytics avancés',
         'Support prioritaire 24/7',
-        'Mises à jour automatiques'
-      ]
+        'Mises à jour automatiques',
+        // 'Sauvegarde automatique',
+        'SSL inclus'
+      ],
+
+
     },
     {
-      id: 'annuel',
+      id: "GUID",
       name: 'Plan Annuel',
-      price: 199.99,
+      price: 690,
       period: '365 jours',
       description: 'Économisez 2 mois avec le plan annuel',
       features: [
-        'Tout du plan mensuel',
-        '2 mois gratuits',
+        'Accès à toutes les fonctionnalités de la plateforme',
+        'Un portfolio professionnel',
+        'Tous les templates disponibles',
+        // 'Domaine personnalisé',
+        // 'Analytics avancés',
         'Support prioritaire 24/7',
-        'Fonctionnalités exclusives'
-      ]
+        'Mises à jour automatiques',
+        // 'Sauvegarde automatique',
+        'SSL inclus',
+        '2 mois gratuits'
+      ],
+
+
     }
   ];
 
@@ -87,7 +107,11 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
     private paymentService: PaymentService,
     private subscriptionService: SubscriptionService,
     private messageService: MessageService
-  ) {}
+  ) {
+      setTimeout(() => {
+      console.log("qwqw");
+    }, 500);
+   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -105,7 +129,7 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
   async initializePayPalButtons() {
     try {
       await this.paymentService.initializePayPal();
-      
+
       // Créer les boutons PayPal pour les plans payants
       this.plans.forEach((plan, index) => {
         if (plan.price > 0) {
@@ -128,7 +152,7 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  selectPlan(plan: SubscriptionPlan) {
+  selectPlan(plan: PricingPlan) {
     if (plan.price === 0) {
       // Plan gratuit - activer directement
       this.activateFreeTrial(plan);
@@ -142,9 +166,9 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  activateFreeTrial(plan: SubscriptionPlan) {
+  activateFreeTrial(plan: PricingPlan) {
     this.loading = true;
-    
+
     this.subscriptionService.updateSubscription(plan.id).subscribe({
       next: () => {
         this.messageService.add({
@@ -152,7 +176,7 @@ export class SelectSubscriptionComponent implements OnInit, AfterViewInit {
           summary: 'Abonnement activé',
           detail: `Votre essai gratuit de ${plan.trialDays} jours a été activé !`
         });
-        
+
         // Rediriger vers la page d'accueil/dashboard
         setTimeout(() => {
           this.router.navigate(['/dashboard']);

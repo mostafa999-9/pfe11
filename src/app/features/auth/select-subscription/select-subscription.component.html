@@ -1,8 +1,23 @@
 <div class="subscription-container">
-  <div class="subscription-header">
+ 
+ <div class="flex justify-content-center mb-7 mt-4">
+    <p-panel styleClass="w-full max-w-30rem">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center">
+          <i class="pi pi-check-circle text-green-500 mr-2"></i>
+          <span class="text-green-500 font-medium">Compte activé avec succès</span>
+        </div>
+      </ng-template>
+      <p class="m-0 text-600">
+        Pour continuer votre expérience, merci de choisir un abonnement qui correspond le mieux à vos besoins.
+      </p>
+    </p-panel>
+  </div>
+
+  <!-- <div class="subscription-header">
     <h1>Choisissez votre abonnement</h1>
     <p>Sélectionnez le plan qui correspond le mieux à vos besoins</p>
-  </div>
+  </div> -->
 
   <div class="plans-grid">
     <div class="plan-card" 
@@ -16,7 +31,7 @@
       <div class="plan-header">
         <h3>{{ plan.name }}</h3>
         <div class="price">
-          <span class="currency">€</span>
+          <span class="currency">MAD</span>
           <span class="amount">{{ plan.price }}</span>
           <span class="period">/ {{ plan.period }}</span>
         </div>
@@ -46,12 +61,12 @@
         
         <!-- Bouton PayPal pour les plans payants -->
         <div *ngIf="plan.price > 0" class="payment-options">
-          <button pButton 
+          <!-- <button pButton 
                   [label]="'Choisir ' + plan.name" 
                   class="p-button-outlined p-button-lg w-full"
                   (click)="selectPlan(plan)"
                   style="margin-bottom: 1rem;">
-          </button>
+          </button> -->
           <div class="paypal-container">
             <p class="payment-label">Payer avec PayPal:</p>
             <div [id]="'paypal-button-' + i" class="paypal-button"></div>
@@ -61,9 +76,9 @@
     </div>
   </div>
 
-  <div class="subscription-footer">
+  <!-- <div class="subscription-footer">
     <p>Vous avez déjà un compte ? 
       <a (click)="goToLogin()" class="login-link">Se connecter</a>
     </p>
-  </div>
+  </div> -->
 </div>

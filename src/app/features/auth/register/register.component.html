@@ -19,7 +19,7 @@
             placeholder="Votre prénom"
             [ngClass]="{'ng-invalid ng-dirty': prenom?.invalid && prenom?.touched}"
           />
-          <small *ngIf="prenom?.invalid && prenom?.touched" class="p-error">
+          <small *ngIf="prenom?.invalid && prenom?.touched" class="p-error text-red-500">
             <span *ngIf="prenom?.errors?.['required']">Le prénom est requis</span>
             <span *ngIf="prenom?.errors?.['minlength']">Le prénom doit contenir au moins 2 caractères</span>
           </small>
@@ -34,7 +34,7 @@
             placeholder="Votre nom"
             [ngClass]="{'ng-invalid ng-dirty': nom?.invalid && nom?.touched}"
           />
-          <small *ngIf="nom?.invalid && nom?.touched" class="p-error">
+          <small *ngIf="nom?.invalid && nom?.touched" class="p-error text-red-500">
             <span *ngIf="nom?.errors?.['required']">Le nom est requis</span>
             <span *ngIf="nom?.errors?.['minlength']">Le nom doit contenir au moins 2 caractères</span>
           </small>
@@ -50,7 +50,7 @@
           placeholder="votre@email.com"
           [ngClass]="{'ng-invalid ng-dirty': email?.invalid && email?.touched}"
         />
-        <small *ngIf="email?.invalid && email?.touched" class="p-error">
+        <small *ngIf="email?.invalid && email?.touched" class="p-error text-red-500">
           <span *ngIf="email?.errors?.['required']">L'email est requis</span>
           <span *ngIf="email?.errors?.['email']">Format d'email invalide</span>
         </small>
@@ -66,13 +66,13 @@
             placeholder="nomutilisateur"
             [ngClass]="{'ng-invalid ng-dirty': nomUtilisateur?.invalid && nomUtilisateur?.touched}"
           />
-          <small *ngIf="nomUtilisateur?.invalid && nomUtilisateur?.touched" class="p-error">
+          <small *ngIf="nomUtilisateur?.invalid && nomUtilisateur?.touched" class="p-error text-red-500">
             <span *ngIf="nomUtilisateur?.errors?.['required']">Le nom d'utilisateur est requis</span>
             <span *ngIf="nomUtilisateur?.errors?.['minlength']">Au moins 3 caractères</span>
           </small>
         </div>
         
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="surNom">Surnom</label>
           <input 
             pInputText 
@@ -81,10 +81,10 @@
             placeholder="Votre surnom"
             [ngClass]="{'ng-invalid ng-dirty': surNom?.invalid && surNom?.touched}"
           />
-          <small *ngIf="surNom?.invalid && surNom?.touched" class="p-error">
+          <small *ngIf="surNom?.invalid && surNom?.touched" class="p-error text-red-500">
             <span *ngIf="surNom?.errors?.['required']">Le surnom est requis</span>
           </small>
-        </div>
+        </div> -->
       </div>
       
       <div class="form-group">
@@ -96,7 +96,7 @@
           placeholder="Ex: Développeur Full Stack, Designer UX/UI..."
           [ngClass]="{'ng-invalid ng-dirty': titreProf?.invalid && titreProf?.touched}"
         />
-        <small *ngIf="titreProf?.invalid && titreProf?.touched" class="p-error">
+        <small *ngIf="titreProf?.invalid && titreProf?.touched" class="p-error text-red-500">
           <span *ngIf="titreProf?.errors?.['required']">Le titre professionnel est requis</span>
         </small>
       </div>
@@ -110,7 +110,7 @@
           placeholder="Votre ville, pays"
           [ngClass]="{'ng-invalid ng-dirty': adresse?.invalid && adresse?.touched}"
         />
-        <small *ngIf="adresse?.invalid && adresse?.touched" class="p-error">
+        <small *ngIf="adresse?.invalid && adresse?.touched" class="p-error text-red-500">
           <span *ngIf="adresse?.errors?.['required']">L'adresse est requise</span>
         </small>
       </div>
@@ -126,7 +126,7 @@
           styleClass="w-full"
           [ngClass]="{'ng-invalid ng-dirty': motDePasse?.invalid && motDePasse?.touched}"
         ></p-password>
-        <small *ngIf="motDePasse?.invalid && motDePasse?.touched" class="p-error">
+        <small *ngIf="motDePasse?.invalid && motDePasse?.touched" class="p-error text-red-500">
           <span *ngIf="motDePasse?.errors?.['required']">Le mot de passe est requis</span>
           <span *ngIf="motDePasse?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères</span>
         </small>
@@ -143,7 +143,7 @@
           styleClass="w-full"
           [ngClass]="{'ng-invalid ng-dirty': confirmPassword?.invalid && confirmPassword?.touched}"
         ></p-password>
-        <small *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="p-error">
+        <small *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="p-error text-red-500">
           <span *ngIf="confirmPassword?.errors?.['required']">La confirmation est requise</span>
           <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Les mots de passe ne correspondent pas</span>
         </small>
@@ -161,7 +161,7 @@
             <a href="#" class="terms-link">politique de confidentialité</a>
           </label>
         </div>
-        <small *ngIf="acceptTerms?.invalid && acceptTerms?.touched" class="p-error">
+        <small *ngIf="acceptTerms?.invalid && acceptTerms?.touched" class="p-error text-red-500">
           Vous devez accepter les conditions d'utilisation
         </small>
       </div>
@@ -177,13 +177,13 @@
       ></button>
     </form>
     
-    <p-divider align="center">
+    <!-- <p-divider align="center">
       <span class="divider-text">ou</span>
     </p-divider>
     
     <div class="social-login">
       <button pButton label="Continuer avec Google" icon="pi pi-google" class="p-button-outlined w-full"></button>
-    </div>
+    </div> -->
     
     <div class="auth-footer">
       <p>Déjà un compte ? 

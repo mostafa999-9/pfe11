@@ -47,7 +47,7 @@ export class RegisterComponent {
       nomUtilisateur: ['', [Validators.required, Validators.minLength(3)]],
       titreProf: ['', [Validators.required]],
       adresse: ['', [Validators.required]],
-      surNom: ['', [Validators.required]],
+      // surNom: ['', [Validators.required]],
       motDePasse: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       acceptTerms: [false, [Validators.requiredTrue]]

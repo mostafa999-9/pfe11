@@ -1,12 +1,12 @@
 <div class="verify-email-container">
   <div class="verify-email-card">
     <p-card>
-      <ng-template pTemplate="header">
+      <!-- <ng-template pTemplate="header">
         <div class="card-header">
-          <i class="pi pi-envelope" style="font-size: 3rem; color: var(--primary-color);"></i>
+          <i class="pi pi-envelope" style="position-area: center;font-size: 3rem; color: var(--primary-color);"></i>
           <h2>Vérification de votre email</h2>
         </div>
-      </ng-template>
+      </ng-template> -->
 
       <div class="email-verification-content">
         <div *ngIf="!verificationSent && loading" class="loading-state">
@@ -31,7 +31,7 @@
             pour activer votre compte.
           </p>
 
-          <div class="verification-actions">
+          <!-- <div class="verification-actions">
             <button pButton 
                     label="J'ai vérifié mon email" 
                     icon="pi pi-check"
@@ -45,7 +45,7 @@
                     class="p-button-outlined"
                     (click)="resendEmail()"
                     [loading]="loading"></button>
-          </div>
+          </div> -->
 
           <div class="help-section">
             <p class="help-text">
@@ -57,11 +57,11 @@
       </div>
 
       <ng-template pTemplate="footer">
-        <div class="card-footer">
+        <!-- <div class="card-footer">
           <p>Vous avez déjà un compte ? 
             <a (click)="goToLogin()" class="login-link">Se connecter</a>
           </p>
-        </div>
+        </div> -->
       </ng-template>
     </p-card>
   </div>
