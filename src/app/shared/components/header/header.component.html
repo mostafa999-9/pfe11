@@ -28,6 +28,7 @@
         <ul>
           <li><a (click)="router.navigate(['/dashboard'])"><i class="pi pi-user"></i> Dashboard</a></li>
           <li><a (click)="router.navigate(['/portfolio-builder'])"><i class="pi pi-briefcase"></i> Portfolio</a></li>
+          <li><a (click)="router.navigate(['/profile'])"><i class="pi pi-user-edit"></i> Profil</a></li>
         </ul>
       </nav>
 
@@ -75,6 +76,9 @@
       </li>
       <li *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
         <a (click)="navigateToDashboard()"><i class="pi pi-user"></i> Dashboard</a>
+      </li>
+      <li *ngIf="authService.isAuthenticated() && !authService.isAdmin()">
+        <a (click)="router.navigate(['/profile'])"><i class="pi pi-user-edit"></i> Profil</a>
       </li>
       <li *ngIf="authService.isAuthenticated()">
         <a (click)="logout()"><i class="pi pi-sign-out"></i> Déconnexion</a>
