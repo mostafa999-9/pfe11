@@ -69,5 +69,59 @@
     </div>
   </div>
 </div>
+  <!-- Historique des Abonnements -->
+  <div class="subscription-history">
+    <h2>Historique des Abonnements</h2>
+    <p-card>
+      <p-table [value]="historiqueAbonnements" styleClass="p-datatable-striped" 
+               [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+               currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} abonnements">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Plan</th>
+            <th>Période</th>
+            <th>Statut</th>
+            <th>Montant</th>
+            <th>Méthode de paiement</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-abonnement>
+          <tr>
+            <td>
+              <strong>{{ abonnement.planNom }}</strong>
+            </td>
+            <td>
+              <div class="periode-info">
+                <div>Du {{ abonnement.dateDebut | date:'dd/MM/yyyy' }}</div>
+                <div>Au {{ abonnement.dateFin | date:'dd/MM/yyyy' }}</div>
+              </div>
+            </td>
+            <td>
+              <p-tag [value]="getHistoriqueStatusLabel(abonnement.statut)" 
+                     [severity]="getStatusSeverity(abonnement.statut)"></p-tag>
+            </td>
+            <td>
+              <span class="montant" [ngClass]="{'gratuit': abonnement.montant === 0}">
+                {{ abonnement.montant === 0 ? 'Gratuit' : (abonnement.montant + ' €') }}
+              </span>
+            </td>
+            <td>
+              <span class="methode-paiement">{{ abonnement.methodePaiement }}</span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="empty">
+          <tr>
+            <td colspan="5" class="text-center">
+              <div class="empty-history">
+                <i class="pi pi-history" style="font-size: 2rem; color: #ccc; margin-bottom: 1rem;"></i>
+                <p>Aucun historique d'abonnement disponible</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
 
 <p-confirmDialog></p-confirmDialog>

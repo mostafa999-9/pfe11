@@ -11,6 +11,16 @@ import { SubscriptionService } from '../../core/services/subscription.service';
 import { AuthService } from '../../core/services/auth.service';
 import { PlanAbonnement, Abonnement } from '../../core/models/user.model';
 
+interface HistoriqueAbonnement {
+  id: string;
+  planNom: string;
+  dateDebut: Date;
+  dateFin: Date;
+  statut: 'actif' | 'expire' | 'annule';
+  montant: number;
+  methodePaiement: string;
+}
+
 @Component({
   selector: 'app-subscription-management',
   standalone: true,
@@ -24,6 +34,7 @@ import { PlanAbonnement, Abonnement } from '../../core/models/user.model';
 export class SubscriptionManagementComponent implements OnInit {
   plans: PlanAbonnement[] = [];
   currentSubscription: Abonnement | null = null;
+  historiqueAbonnements: HistoriqueAbonnement[] = [];
   showPlans = false;
 
   constructor(
@@ -37,6 +48,7 @@ export class SubscriptionManagementComponent implements OnInit {
   ngOnInit() {
     this.loadPlans();
     this.loadCurrentSubscription();
+    this.loadHistoriqueAbonnements();
   }
 
   loadPlans() {
@@ -48,6 +60,39 @@ export class SubscriptionManagementComponent implements OnInit {
   loadCurrentSubscription() {
     const user = this.authService.getCurrentUser();
     this.currentSubscription = user?.abonnement || null;
+  }
+
+  loadHistoriqueAbonnements() {
+    // Simulation de données d'historique
+    this.historiqueAbonnements = [
+      {
+        id: '1',
+        planNom: 'Plan Mensuel',
+        dateDebut: new Date('2024-01-01'),
+        dateFin: new Date('2024-02-01'),
+        statut: 'expire',
+        montant: 19.99,
+        methodePaiement: 'PayPal'
+      },
+      {
+        id: '2',
+        planNom: 'Essai Gratuit',
+        dateDebut: new Date('2023-12-01'),
+        dateFin: new Date('2023-12-04'),
+        statut: 'expire',
+        montant: 0,
+        methodePaiement: 'Gratuit'
+      },
+      {
+        id: '3',
+        planNom: 'Plan Annuel',
+        dateDebut: new Date('2024-02-01'),
+        dateFin: new Date('2025-02-01'),
+        statut: 'actif',
+        montant: 199.99,
+        methodePaiement: 'Carte bancaire'
+      }
+    ];
   }
 
   getCurrentPlanName(): string {
@@ -73,8 +118,18 @@ export class SubscriptionManagementComponent implements OnInit {
     switch (status) {
       case 'actif': return 'success';
       case 'expire': return 'danger';
-      case 'suspendu': return 'warning';
+      case 'suspendu': 
+      case 'annule': return 'warning';
       default: return 'info';
+    }
+  }
+
+  getHistoriqueStatusLabel(status: string): string {
+    switch (status) {
+      case 'actif': return 'Actif';
+      case 'expire': return 'Expiré';
+      case 'annule': return 'Annulé';
+      default: return status;
     }
   }
 

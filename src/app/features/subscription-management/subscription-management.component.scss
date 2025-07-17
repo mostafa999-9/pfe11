@@ -79,6 +79,54 @@
     border: 2px solid var(--primary-color);
 }
 
+.subscription-history {
+  margin-top: 3rem;
+}
+
+.subscription-history h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.periode-info {
+  font-size: 0.9rem;
+}
+
+.periode-info div:first-child {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.periode-info div:last-child {
+  color: var(--text-color-secondary);
+  margin-top: 0.25rem;
+}
+
+.montant {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.montant.gratuit {
+  color: var(--success-color);
+}
+
+.methode-paiement {
+  color: var(--text-color-secondary);
+  font-size: 0.9rem;
+}
+
+.empty-history {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-color-secondary);
+}
+
+.empty-history p {
+  margin: 0;
+  font-size: 1rem;
+}
+
 ::ng-deep {
     .plans-grid {
         .p-card {
