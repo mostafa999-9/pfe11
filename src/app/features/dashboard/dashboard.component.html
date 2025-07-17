@@ -87,6 +87,7 @@
             <th>URL</th>
             <th>Template</th>
             <th>Statut</th>
+            <th>Visibilité</th>
             <th>Dernière modification</th>
             <th>Vues</th>
             <th>Actions</th>
@@ -95,7 +96,7 @@
         <ng-template pTemplate="body" let-portfolio>
           <tr>
             <td>
-              <strong>{{ portfolio.name }}</strong>
+              <strong>{{ portfolio.nom }}</strong>
             </td>
             <td>
               <a [href]="'https://' + portfolio.url" target="_blank" class="portfolio-url">
@@ -105,12 +106,27 @@
             </td>
             <td>{{ portfolio.template }}</td>
             <td>
-              <p-tag 
-                [value]="getStatusLabel(portfolio.status)" 
-                [severity]="getStatusSeverity(portfolio.status)">
-              </p-tag>
+              <p-dropdown 
+                [options]="statutOptions" 
+                [(ngModel)]="portfolio.statut"
+                optionLabel="label" 
+                optionValue="value"
+                (onChange)="onStatusChange(portfolio, $event.value)"
+                [style]="{'min-width': '120px'}">
+              </p-dropdown>
             </td>
-            <td>{{ portfolio.lastModified | date:'short':'fr' }}</td>
+            <td>
+              <p-toggleButton 
+                [(ngModel)]="portfolio.isPublic"
+                onLabel="Public" 
+                offLabel="Privé"
+                onIcon="pi pi-eye" 
+                offIcon="pi pi-eye-slash"
+                (onChange)="onVisibilityChange(portfolio)"
+                styleClass="p-button-sm">
+              </p-toggleButton>
+            </td>
+            <td>{{ portfolio.derniereModification | date:'short':'fr' }}</td>
             <td>
               <span class="views-count">
                 <i class="pi pi-eye"></i>

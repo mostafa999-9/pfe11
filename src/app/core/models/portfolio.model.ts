@@ -97,3 +97,16 @@ export interface ReseauSocial {
   icone?: string;
   utilisateurId: string;
 }
+
+export interface Portfolio {
+  id: string;
+  nom: string;
+  url: string;
+  template: string;
+  statut: 'actif' | 'brouillon' | 'archive';
+  dateCreation: Date;
+  derniereModification: Date;
+  vues: number;
+  utilisateurId: string;
+  isPublic: boolean;
+}

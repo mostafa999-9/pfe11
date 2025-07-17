@@ -10,7 +10,8 @@ import {
   Education, 
   Temoignage, 
   Service, 
-  ReseauSocial 
+  ReseauSocial,
+  Portfolio 
 } from '../models/portfolio.model';
 
 @Injectable({
@@ -25,6 +26,71 @@ export class PortfolioService {
   private temoignages = signal<Temoignage[]>([]);
   private services = signal<Service[]>([]);
   private reseauxSociaux = signal<ReseauSocial[]>([]);
+
+  // Portfolio Management
+  private portfolios = signal<Portfolio[]>([]);
+  
+  getPortfolios() { return this.portfolios(); }
+  
+  createPortfolio(data: Omit<Portfolio, 'id' | 'dateCreation' | 'derniereModification' | 'vues'>): Observable<Portfolio> {
+    const newPortfolio: Portfolio = {
+      ...data,
+      id: Date.now().toString(),
+      dateCreation: new Date(),
+      derniereModification: new Date(),
+      vues: 0
+    };
+    
+    return of(newPortfolio).pipe(
+      delay(300),
+      map(result => {
+        this.portfolios.update(items => [...items, result]);
+        return result;
+      })
+    );
+  }
+  
+  updatePortfolioStatus(portfolioId: string, statut: 'actif' | 'brouillon' | 'archive'): Observable<Portfolio> {
+    return of({ statut } as Portfolio).pipe(
+      delay(300),
+      map(() => {
+        this.portfolios.update(items => 
+          items.map(item => 
+            item.id === portfolioId 
+              ? { ...item, statut, derniereModification: new Date() }
+              : item
+          )
+        );
+        return this.portfolios().find(p => p.id === portfolioId)!;
+      })
+    );
+  }
+  
+  updatePortfolioVisibility(portfolioId: string, isPublic: boolean): Observable<Portfolio> {
+    return of({ isPublic } as Portfolio).pipe(
+      delay(300),
+      map(() => {
+        this.portfolios.update(items => 
+          items.map(item => 
+            item.id === portfolioId 
+              ? { ...item, isPublic, derniereModification: new Date() }
+              : item
+          )
+        );
+        return this.portfolios().find(p => p.id === portfolioId)!;
+      })
+    );
+  }
+  
+  deletePortfolio(portfolioId: string): Observable<boolean> {
+    return of(true).pipe(
+      delay(300),
+      map(() => {
+        this.portfolios.update(items => items.filter(item => item.id !== portfolioId));
+        return true;
+      })
+    );
+  }
 
   // Getters
   getInformationsPersonnelles() { return this.informationsPersonnelles(); }
