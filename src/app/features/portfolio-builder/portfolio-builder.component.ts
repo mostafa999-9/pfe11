@@ -32,7 +32,7 @@ import { Portfolio } from '../../core/models/portfolio.model';
                  class="p-button-outlined" (click)="goBack()"></button>
           
           <div class="portfolio-controls" *ngIf="currentPortfolio">
-            <div class="control-group">
+            <!-- <div class="control-group">
               <label>Statut:</label>
               <p-dropdown 
                 [options]="statutOptions" 
@@ -42,7 +42,7 @@ import { Portfolio } from '../../core/models/portfolio.model';
                 (onChange)="onStatusChange($event.value)"
                 [style]="{'min-width': '120px'}">
               </p-dropdown>
-            </div>
+            </div> -->
             
             <div class="control-group">
               <label>Visibilité:</label>
