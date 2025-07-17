@@ -8,17 +8,13 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
+import { PortfolioService } from '../../core/services/portfolio.service';
+import { Portfolio } from '../../core/models/portfolio.model';
 
-interface Portfolio {
-  id: number;
-  name: string;
-  url: string;
-  template: string;
-  status: 'active' | 'draft' | 'archived';
-  lastModified: Date;
-  views: number;
-}
 
 interface DashboardStats {
   totalPortfolios: number;
@@ -37,7 +33,10 @@ interface DashboardStats {
     TableModule,
     TagModule,
     ConfirmDialogModule,
-    TooltipModule
+    TooltipModule,
+    DropdownModule,
+    ToggleButtonModule,
+    FormsModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
@@ -48,8 +47,36 @@ export class DashboardComponent {
     public router: Router,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    public authService: AuthService
+    public authService: AuthService,
+    private portfolioService: PortfolioService
   ) {}
+  
+  ngOnInit() {
+    this.loadPortfolios();
+  }
+  
+  loadPortfolios() {
+    // Simulation de données portfolio
+    const mockPortfolio: Portfolio = {
+      id: '1',
+      nom: 'Mon Portfolio Professionnel',
+      url: 'johndoe.quickfolio.com',
+      template: 'Modern Pro',
+      statut: 'actif',
+      dateCreation: new Date('2024-01-15'),
+      derniereModification: new Date('2024-01-20'),
+      vues: 1247,
+      utilisateurId: '1',
+      isPublic: true
+    };
+    this.portfolios = [mockPortfolio];
+  }
+  
+  statutOptions = [
+    { label: 'Actif', value: 'actif' },
+    { label: 'Brouillon', value: 'brouillon' },
+    { label: 'Archivé', value: 'archive' }
+  ];
   
   stats: DashboardStats = {
     totalPortfolios: 1,
@@ -58,17 +85,7 @@ export class DashboardComponent {
     conversionRate: 1.8
   };
   
-  portfolios: Portfolio[] = [
-    {
-      id: 1,
-      name: 'Mon Portfolio Professionnel',
-      url: 'johndoe.QuickFolio.com',
-      template: 'Modern Pro',
-      status: 'active',
-      lastModified: new Date('2024-01-15'),
-      views: 1247
-    }
-  ];
+  portfolios: Portfolio[] = [];
   
   createNewPortfolio() {
     if (this.portfolios.length >= 1) {
@@ -81,6 +98,45 @@ export class DashboardComponent {
     }
     
     this.router.navigate(['/portfolio-builder']);
+  }
+  
+  onStatusChange(portfolio: Portfolio, newStatus: string) {
+    this.portfolioService.updatePortfolioStatus(portfolio.id, newStatus as any).subscribe({
+      next: (updatedPortfolio) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Statut mis à jour',
+          detail: `Le portfolio est maintenant ${this.getStatusLabel(newStatus)}`
+        });
+        this.loadPortfolios();
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Impossible de mettre à jour le statut'
+        });
+      }
+    });
+  }
+  
+  onVisibilityChange(portfolio: Portfolio) {
+    this.portfolioService.updatePortfolioVisibility(portfolio.id, portfolio.isPublic).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Visibilité mise à jour',
+          detail: `Portfolio ${portfolio.isPublic ? 'public' : 'privé'}`
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Impossible de mettre à jour la visibilité'
+        });
+      }
+    });
   }
   
   editPortfolio(portfolio: Portfolio) {
@@ -101,16 +157,19 @@ export class DashboardComponent {
   
   deletePortfolio(portfolio: Portfolio) {
     this.confirmationService.confirm({
-      message: `Êtes-vous sûr de vouloir supprimer le portfolio "${portfolio.name}" ? Cette action est irréversible.`,
+      message: `Êtes-vous sûr de vouloir supprimer le portfolio "${portfolio.nom}" ? Cette action est irréversible.`,
       header: 'Confirmer la suppression',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.portfolios = this.portfolios.filter(p => p.id !== portfolio.id);
-        this.stats.totalPortfolios = this.portfolios.length;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Portfolio supprimé',
-          detail: `${portfolio.name} a été supprimé avec succès`
+        this.portfolioService.deletePortfolio(portfolio.id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Portfolio supprimé',
+              detail: `${portfolio.nom} a été supprimé avec succès`
+            });
+            this.loadPortfolios();
+          }
         });
       }
     });
@@ -118,18 +177,18 @@ export class DashboardComponent {
   
   getStatusSeverity(status: string): string {
     switch (status) {
-      case 'active': return 'success';
-      case 'draft': return 'warning';
-      case 'archived': return 'secondary';
+      case 'actif': return 'success';
+      case 'brouillon': return 'warning';
+      case 'archive': return 'secondary';
       default: return 'info';
     }
   }
   
   getStatusLabel(status: string): string {
     switch (status) {
-      case 'active': return 'Actif';
-      case 'draft': return 'Brouillon';
-      case 'archived': return 'Archivé';
+      case 'actif': return 'Actif';
+      case 'brouillon': return 'Brouillon';
+      case 'archive': return 'Archivé';
       default: return status;
     }
   }
