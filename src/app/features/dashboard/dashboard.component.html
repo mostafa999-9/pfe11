@@ -87,8 +87,8 @@
             <th>URL</th>
             <th>Template</th>
             <th>Statut</th>
-            <th>Dernière modification</th>
-            <th>Vues</th>
+            <!-- <th>Dernière modification</th> -->
+            <!-- <th>Vues</th> -->
             <th>Actions</th>
           </tr>
         </ng-template>
@@ -110,13 +110,13 @@
                 [severity]="getStatusSeverity(portfolio.status)">
               </p-tag>
             </td>
-            <td>{{ portfolio.lastModified | date:'short':'fr' }}</td>
-            <td>
+            <!-- <td>{{ portfolio.lastModified | date:'short':'fr' }}</td> -->
+            <!-- <td>
               <span class="views-count">
                 <i class="pi pi-eye"></i>
                 {{ portfolio.views }}
               </span>
-            </td>
+            </td> -->
             <td>
               <div class="action-buttons">
                 <button 
